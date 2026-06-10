@@ -1,0 +1,95 @@
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "link_list",
+      "id": "main_linklist",
+      "label": "Menu",
+      "default": "main-menu"
+    }
+  ]
+}
+{% endschema %}
+
+<div id="shopify-section-header" class="shopify-section">
+  <div class="page-border"></div>
+
+  <style>
+    .site-header__logo { width: 150px; }
+  </style>
+
+  <div class="site-wrapper">
+    <div class="top-bar grid">
+      <div class="grid__item medium-up--one-fifth small--one-half"></div>
+      <div class="grid__item text-right">
+        <button id="ToggleMobileMenu" class="mobile-menu-icon medium-up--hide" aria-haspopup="true" aria-owns="SiteNav">
+          <span class="line"></span>
+          <span class="line"></span>
+          <span class="line"></span>
+          <span class="line"></span>
+          <span class="icon__fallback-text">Menu</span>
+        </button>
+
+        <div class="top-bar__search">
+          <form action="/search" method="get" class="search-bar small--hide" role="search">
+            <button type="submit" class="search-bar__submit">
+              <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-search" viewBox="0 0 20 20"><path fill="#000" d="M18.64 17.02l-5.31-5.31c.81-1.08 1.26-2.43 1.26-3.87C14.5 4.06 11.44 1 7.75 1S1 4.06 1 7.75s3.06 6.75 6.75 6.75c1.44 0 2.79-.45 3.87-1.26l5.31 5.31c.45.45 1.26.54 1.71.09.45-.36.45-1.17 0-1.62zM3.25 7.75c0-2.52 1.98-4.5 4.5-4.5s4.5 1.98 4.5 4.5-1.98 4.5-4.5 4.5-4.5-1.98-4.5-4.5z"></path></svg>
+              <span class="icon__fallback-text">Search</span>
+            </button>
+            <input type="search" name="q" class="search-bar__input" value="" placeholder="Search" aria-label="Search" style="color:#000;">
+          </form>
+        </div>
+        <span class="vertical-divider small--hide"></span>
+        <a href="/cart" class="site-header__cart">
+          <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-cart" width="30.998" height="25" viewBox="0 0 30.998 25">
+            <g id="cart" transform="translate(-0.266 -2.499)">
+              <path id="Path_19583" data-name="Path 19583" d="M27.129,6.384a1.086,1.086,0,0,0-.9-.34h0L7.165,4.286a.978.978,0,0,0-.806.3,1.066,1.066,0,0,0-.154.96l3.309,9.365a1.949,1.949,0,0,0,1.753,1.1H25.058a1.552,1.552,0,0,0,1.545-1.19l.795-7.5a1.027,1.027,0,0,0-.268-.931Z" transform="translate(3.842 1.146)" fill="#000"></path>
+              <path id="Path_19584" data-name="Path 19584" d="M27.969,18.916H12.46L8.062,5.155,7.468,3.417C7.241,2.758,6.988,2.5,6.327,2.5H1.5a1.173,1.173,0,1,0,0,2.344H5.365l4.928,15.562c.207.624.484.854,1.546.854H27.967a1.173,1.173,0,1,0,0-2.344ZM17,25.039a2.46,2.46,0,1,1-2.46-2.46A2.46,2.46,0,0,1,17,25.039Zm10.554,0a2.46,2.46,0,1,1-2.46-2.46A2.46,2.46,0,0,1,27.552,25.039Z" transform="translate(0)" fill="#000"></path>
+            </g>
+          </svg>
+          <span class="small--hide">Cart (<span id="CartCount" class="cart-count">{{ cart.item_count }}</span>)</span>
+        </a>
+      </div>
+    </div>
+
+    <header class="site-header grid medium-up--grid--table" role="banner">
+      <div class="grid__item small--text-center">
+        <div itemscope="" itemtype="http://schema.org/Organization">
+          <div id="HeaderLogoWrapper" class="supports-js" style="margin: 0 auto; max-width: 150px;">
+            <a href="/" itemprop="url" style="padding-top:44.583333333333336%; display: block; position: relative;">
+              {% if section.settings.logo != blank %}
+                <img id="HeaderLogo" class="lazyload" src="{{ section.settings.logo | img_url: '150x' }}" alt="{{ shop.name }}" itemprop="logo" style="position:absolute; top:0; left:0; width:100%;">
+              {% else %}
+                <img id="HeaderLogo" class="lazyload" src="{{ 'crtz-alcatraz-white-logo_150x150.png' | asset_url }}" alt="{{ shop.name }}" itemprop="logo" style="position:absolute; top:0; left:0; width:100%;">
+              {% endif %}
+            </a>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <div id="shopify-section-sidebar" class="shopify-section">
+    <div data-section-id="sidebar" data-section-type="sidebar-section">
+      <nav class="grid__item sidebar-nav" role="navigation" style="background-color: #fff; border-right: 1px solid #eee;">
+        <div id="SiteNav" class="site-nav" role="menu">
+          <div class="site-navwrap">
+            <ul class="list--nav">
+              {% for link in linklists[section.settings.main_linklist].links %}
+                <li class="site-nav__item">
+                  <a href="{{ link.url }}" class="site-nav__link" style="color: #000;">{{ link.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>

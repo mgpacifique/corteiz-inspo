@@ -1,0 +1,12 @@
+{
+  "layout": "theme",
+  "sections": {
+    "main": {
+      "type": "main-collection-grid",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

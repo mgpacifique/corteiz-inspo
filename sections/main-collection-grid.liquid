@@ -1,0 +1,60 @@
+{% schema %}
+{
+  "name": "Featured Collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}
+
+<div id="shopify-section-featured_products" class="shopify-section">
+  <div class="featured-products">
+    <div id="product-grid" class="grid grid--uniform" role="list">
+      {% assign collection = collections[section.settings.collection] %}
+      {% for product in collection.products %}
+        <div class="product grid__item medium-up--one-third small--one-half" role="listitem">
+          <div class="supports-js" style="max-width: 600px; margin: 0 auto;">
+            <a href="{{ product.url | within: collection }}" class="product__image-wrapper" style="padding-top:100.0%;" title="{{ product.title | escape }}">
+              {% if product.images[0] %}
+                <img class="product__image lazyload primary-image" src="{{ product.images[0] | img_url: '150x' }}" data-src="{{ product.images[0] | img_url: 'master' }}" alt="{{ product.title | escape }}" style="max-width: 600px; max-height: 600px;">
+              {% endif %}
+              {% if product.images[1] %}
+                <img class="product__image lazyload secondary-image" src="{{ product.images[1] | img_url: '150x' }}" data-src="{{ product.images[1] | img_url: 'master' }}" alt="{{ product.title | escape }}" style="max-width: 600px; max-height: 600px;">
+              {% endif %}
+            </a>
+          </div>
+
+          <noscript>
+            <a href="{{ product.url | within: collection }}" class="product__image-wrapper" title="{{ product.title | escape }}">
+              <img src="{{ product.images[0] | img_url: 'grande' }}" alt="{{ product.title | escape }}">
+            </a>
+          </noscript>
+
+          <div class="product__title text-center">
+            <a href="{{ product.url | within: collection }}" style="color:#000;">{{ product.title }}</a>
+          </div>
+
+          <div class="product__prices text-center">
+            <span class="product__price" style="color:#000;">
+              <span class="visually-hidden">Regular price</span>
+              {{ product.price | money }}
+            </span>
+          </div>
+        </div>
+      {% else %}
+        <div class="grid__item text-center" style="padding: 40px; width: 100%;">
+          <p style="color:#000;">No products found. Please select a collection in the theme editor.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
